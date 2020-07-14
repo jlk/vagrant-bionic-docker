@@ -13,9 +13,16 @@ $install_docker_script = <<-DOCKER_SCRIPT
 
 DOCKER_SCRIPT
 
+$install_docker_compose_script = <<-DOCKER_COMPOSE_SCRIPT
+    sudo curl -L "https://github.com/docker/compose/releases/download/1.26.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    chmod 755 /usr/local/bin/docker-compose
+
+DOCKER_COMPOSE_SCRIPT
+
 Vagrant.configure("2") do |config|
     config.vm.box = "ubuntu/bionic64"
     config.vm.network "public_network"
     config.vm.synced_folder ".", "/vagrant"
     config.vm.provision "shell", inline: $install_docker_script
+    config.vm.provision "shell", inline: $install_docker_compose_script
 end
